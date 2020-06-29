@@ -7,7 +7,7 @@ PORT = 50505
  
 @flask.route('/remote', methods = ["POST"])
 def parseRemoteJson():
-    dict = {"app_name": "", "device": "", "action_type": "", "action": ""}
+    variables = {"app_name": "", "device": "", "action_type": "", "action": ""}
 
     if (not request.is_json):
         print("Invalid JSON")
@@ -15,24 +15,24 @@ def parseRemoteJson():
     
     data = request.json
     
-    for key in dict.keys():
-        if(data.has_key(key)):
-            dict[key] = data[key]
+    for key in variables.keys():
+        if(key in data):
+            variables[key] = data[key]
             
-    if (dict["app_name"] != APP_NAME):
+    if (variables["app_name"] != APP_NAME):
         print("Request Unhandled")
         return ''
     
     #Uncomment Below During Development
-    printJson(dict)
+    printJson(variables)
     
     return ''
     
 def printJson(data):
     print("JSON Object: " + json.dumps(data))
     
-    for key in dict.keys():
-        print(key + ": " + dict[key])
+    for key in data.keys():
+        print(key + ": " + data[key])
         
     return ''
  
