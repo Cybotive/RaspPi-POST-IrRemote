@@ -1,9 +1,11 @@
 from flask import Flask, request
 import json
  
-app = Flask(__name__)
+flask = Flask(__name__)
+APP_NAME = "remote"
+PORT = 50505
  
-@app.route('/remote', methods = ["POST"])
+@flask.route('/remote', methods = ["POST"])
 def parseRemoteJson():
 
     if (not request.is_json):
@@ -16,11 +18,15 @@ def parseRemoteJson():
     return ''
     
 def printReceivedJson(data):
-    dict = {"application": "", "device": "", "commandType": "", "command": ""}
+    dict = {"app_name": "", "device": "", "actionType": "", "action": ""}
     
     for key in dict.keys():
         if(data.has_key(key)):
             dict[key] = data[key]
+            
+    if (dict["app_name"] != APP_NAME):
+        print("Request Unhandled")
+        return ''
     
     print("JSON Object: " + json.dumps(data))
     
@@ -29,4 +35,4 @@ def printReceivedJson(data):
         
     return ''
  
-app.run(host='0.0.0.0', port= 50505)
+flask.run(host='0.0.0.0', port= PORT)
