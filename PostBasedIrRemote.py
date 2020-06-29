@@ -31,8 +31,8 @@ def parseRemoteJson():
 def printJson(data):
     print("JSON Object: " + json.dumps(data))
     
-    for key in data.keys():
-        print(key + ": " + data[key])
+    for key in dict.keys():
+        print(key + ": " + dict[key])
         
     return ''
  
